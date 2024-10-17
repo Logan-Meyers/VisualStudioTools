@@ -12,7 +12,7 @@ def main():
     proj_info.generate_file_info()
 
     # debugging
-    print(proj_info.proj_type_uuid)
+    proj_info.display_info()
 
 # Example usage
 # project_dir = '/Users/lsm03/Desktop/Programming/College/CompSciCode/CPT_S 121/Extra Credit/BlackJackTest'

@@ -27,6 +27,7 @@ class project_info:
     def __init__(self):
         self.dir = ""
         self.name = ""
+        self.proj_type = ""
         self.proj_type_uuid = ""
         self.proj_unique_uuid = ""
         self.header_files = []
@@ -39,9 +40,12 @@ class project_info:
     
     def generate_main_info(self, project_dir, project_type):
         self.name = os.path.basename(project_dir)
+        self.proj_type = project_type
         self.proj_type_uuid = constants.VCX_PROJ_TYPES.get(project_type)
+        
         if self.proj_type_uuid == None:
             raise KeyError("Hey! Invalid type of project given!")
+        
         self.generate_uuid()
 
     def generate_file_info(self):
@@ -55,3 +59,14 @@ class project_info:
 
         # all files
         self.all_files = self.header_files + self.resource_files + self.source_files
+    
+    def display_info(self):
+        print(f"""Project Name: {self.name}\
+               \n  - Project Root directory: {self.dir}\
+               \n  - Project Type: {self.proj_type}\
+               \n  - Project Type UUID: {{{self.proj_type_uuid}}}\
+               \n  - Project Unique UUID: {{{self.proj_unique_uuid}}}\
+               \n  - Project Files:\
+               \n    - Header Files: {self.header_files}\
+               \n    - Resource Files: {self.resource_files}\
+               \n    - Source files: {self.source_files}""")
