@@ -11,7 +11,7 @@ def create_sln(project_info: run_utils.project_info):
         # Visual Studio Version 17
         VisualStudioVersion = 17.11.35312.102
         MinimumVisualStudioVersion = 10.0.40219.1
-        Project("{{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}}") = "{project_info.name}", "{project_info.name}\\{project_info.name}.vcxproj", "{{{project_info.project_uuid}}}"
+        Project("{{{project_info.proj_type_uuid}}}") = "{project_info.name}", "{project_info.name}\\{project_info.name}.vcxproj", "{{{project_info.proj_unique_uuid}}}"
         EndProject
         Global
             GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,10 +19,10 @@ def create_sln(project_info: run_utils.project_info):
                 Release|x64 = Release|x64
             EndGlobalSection
             GlobalSection(ProjectConfigurationPlatforms) = postSolution
-                {{{project_info.project_uuid}}}.Debug|x64.ActiveCfg = Debug|x64
-                {{{project_info.project_uuid}}}.Debug|x64.Build.0 = Debug|x64
-                {{{project_info.project_uuid}}}.Release|x64.ActiveCfg = Release|x64
-                {{{project_info.project_uuid}}}.Release|x64.Build.0 = Release|x64
+                {{{project_info.proj_unique_uuid}}}.Debug|x64.ActiveCfg = Debug|x64
+                {{{project_info.proj_unique_uuid}}}.Debug|x64.Build.0 = Debug|x64
+                {{{project_info.proj_unique_uuid}}}.Release|x64.ActiveCfg = Release|x64
+                {{{project_info.proj_unique_uuid}}}.Release|x64.Build.0 = Release|x64
             EndGlobalSection
             GlobalSection(SolutionProperties) = preSolution
                 HideSolutionNode = FALSE
