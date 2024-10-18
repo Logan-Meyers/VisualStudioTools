@@ -11,11 +11,15 @@ def main():
     proj_info.generate_main_info(run_utils.get_project_dir_arg(), run_utils.get_project_type_arg())
     proj_info.generate_file_info()
 
-    # debugging
+    # print info about the project
     proj_info.display_info()
-    path = pathlib.PurePath(run_utils.get_project_dir_arg())
-    root = path.parts[-1]
-    print(root)
+
+    # convert the project
+    # move the necessary files, creating directories as needed
+    file_utils.move_files_to_project_folder(proj_info)
+
+    # create the various files for Visual Studio
+    vcx_utils.create_visual_studio_project(proj_info)
 
 # Example usage
 # project_dir = '/Users/lsm03/Desktop/Programming/College/CompSciCode/CPT_S 121/Extra Credit/BlackJackTest'

@@ -12,15 +12,11 @@ def verify_directory_path(path_str: str):
 
 # Helper to move files to the project folder
 def move_files_to_project_folder(project_info: run_utils.project_info):
-    new_project_dir = os.path.join(project_info.dir, project_info.name)
-    
-    if not os.path.exists(new_project_dir):
-        os.makedirs(new_project_dir)
+    if not os.path.exists(project_info.proj_dir):
+        os.makedirs(project_info.proj_dir)
     
     for file in project_info.all_files:
-        shutil.move(file, new_project_dir)
-
-    return new_project_dir
+        shutil.move(file, project_info.proj_dir)
 
 # Categorize files
 def categorize_files(project_dir):
@@ -30,12 +26,16 @@ def categorize_files(project_dir):
     
     for root, _, files in os.walk(project_dir):
         for file in files:
+            # print(file)
             if file.endswith('.c'):
-                source_files.append(os.path.join(root, file))
+                # source_files.append(os.path.join(root, file))
+                source_files.append(project_dir / file)
             elif file.endswith('.h'):
-                header_files.append(os.path.join(root, file))
+                # header_files.append(os.path.join(root, file))
+                header_files.append(project_dir / file)
             else:
-                resource_files.append(os.path.join(root, file))
+                # resource_files.append(os.path.join(root, file))
+                resource_files.append(project_dir / file)
     
     return header_files, resource_files, source_files
 

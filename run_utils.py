@@ -1,4 +1,4 @@
-import sys, file_utils, vcx_utils, uuid, os, constants
+import sys, file_utils, vcx_utils, uuid, os, constants, pathlib
 
 def are_arguments_valid():
     if len(sys.argv) < 2:
@@ -25,7 +25,8 @@ def get_project_type_arg():
 
 class project_info:
     def __init__(self):
-        self.dir = ""
+        self.root_dir = pathlib.Path()
+        self.proj_dir = pathlib.Path()
         self.name = ""
         self.proj_type = ""
         self.proj_type_uuid = ""
@@ -38,8 +39,10 @@ class project_info:
     def generate_uuid(self):
         self.proj_unique_uuid = str(uuid.uuid4()).upper()
     
-    def generate_main_info(self, project_dir, project_type):
-        self.name = os.path.basename(project_dir)
+    def generate_main_info(self, project_dir: str, project_type: str):
+        self.root_dir = pathlib.PurePath(project_dir)
+        self.name = self.root_dir.parts[-1]
+        self.proj_dir = self.root_dir / self.name
         self.proj_type = project_type
         self.proj_type_uuid = constants.VCX_PROJ_TYPES.get(project_type)
         
@@ -50,7 +53,7 @@ class project_info:
 
     def generate_file_info(self):
         # get details about categorized files
-        hdr, res, src = file_utils.categorize_files(self.dir)
+        hdr, res, src = file_utils.categorize_files(self.root_dir)
 
         # set file info to info about categorized files
         self.header_files = hdr
@@ -62,7 +65,8 @@ class project_info:
     
     def display_info(self):
         print(f"""Project Name: {self.name}\
-               \n  - Project Root directory: {self.dir}\
+               \n  - Project Root Directory: {self.root_dir}\
+               \n  - Project New Directory: {self.proj_dir}\
                \n  - Project Type: {self.proj_type}\
                \n  - Project Type UUID: {{{self.proj_type_uuid}}}\
                \n  - Project Unique UUID: {{{self.proj_unique_uuid}}}\
