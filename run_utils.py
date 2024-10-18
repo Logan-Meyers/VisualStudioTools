@@ -50,12 +50,12 @@ class project_info:
 
     def generate_file_info(self):
         # get details about categorized files
-        header_files, resource_files, source_files = file_utils.categorize_files(self.dir)
+        hdr, res, src = file_utils.categorize_files(self.dir)
 
         # set file info to info about categorized files
-        self.header_files = header_files
-        self.resource_files = resource_files
-        self.source_files = source_files
+        self.header_files = hdr
+        self.resource_files = res
+        self.source_files = src
 
         # all files
         self.all_files = self.header_files + self.resource_files + self.source_files

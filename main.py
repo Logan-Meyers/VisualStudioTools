@@ -1,4 +1,4 @@
-import vcx_utils, file_utils, run_utils, os
+import vcx_utils, file_utils, run_utils, os, pathlib
 
 # main function
 def main():
@@ -13,6 +13,9 @@ def main():
 
     # debugging
     proj_info.display_info()
+    path = pathlib.PurePath(run_utils.get_project_dir_arg())
+    root = path.parts[-1]
+    print(root)
 
 # Example usage
 # project_dir = '/Users/lsm03/Desktop/Programming/College/CompSciCode/CPT_S 121/Extra Credit/BlackJackTest'
