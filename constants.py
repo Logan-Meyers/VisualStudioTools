@@ -1,7 +1,7 @@
 # GENERAL VISUAL STUDIO CONSTANTS
 VCX_PROJ_TYPES = {
     "C++": "8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942",
-    "C#": "FAE04EC0-301F-11D3-BF4B-00C04F79EFBC"
+    "C#":  "FAE04EC0-301F-11D3-BF4B-00C04F79EFBC"
 }
 
 DEFAULT_PROJ_TYPE = "C++"
@@ -189,7 +189,6 @@ CLCOMPLILE_TEMPLATE = """\n    <ClCompile Include="{FILE}" />"""
 TEXT_TEMPLATE = """\n    <Text Include="{FILE}" />"""
 
 # VCXPROJ.FILTERS CONSTANTS
-
 VCXPROJ_FILTERS_TEMPLATE = """<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>

@@ -1,7 +1,8 @@
-import vcx_utils, file_utils, run_utils, os, pathlib, constants
+import vcx_utils, file_utils, run_utils
 
 # main function
 def main():
+    # make sure arguments entered exist and are valid
     if not run_utils.are_arguments_valid():
         print("\nSorry! Incorrect usage of the tool. Please see the usage instructions below:\n\npython main.py [root project directory] [project type (optional, defaults to C++)]")
         quit()
@@ -21,6 +22,5 @@ def main():
     # create the various files for Visual Studio
     vcx_utils.create_visual_studio_project(proj_info)
 
-    # print(vcx_utils.create_vcxfilters(proj_info))
-
+# run the main function
 main()

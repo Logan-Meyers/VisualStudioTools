@@ -1,4 +1,5 @@
-import os, shutil, run_utils
+import run_utils
+import os, shutil
 from pathlib import Path
 
 # Helper to verify directory exists
@@ -39,7 +40,7 @@ def categorize_files(project_dir):
     
     return header_files, resource_files, source_files
 
-# Abstraction of file writing because with open is ugly
+# Abstraction of file writing because `with open`` is ugly
 def write_to_file(path, content):
     with open(path, 'w') as file:
         file.write(content)

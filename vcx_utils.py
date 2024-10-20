@@ -1,4 +1,5 @@
-import os, uuid, file_utils, run_utils, constants
+import file_utils, run_utils, constants
+import os
 
 # Create the solution file, including basic information like:
 # - Visual Studio version
@@ -65,7 +66,7 @@ def create_vcxfilters(project_info: run_utils.project_info):
         
     file_utils.write_to_file(vcxproj_filters_path, vcxproj_filters_content)
 
-# Main function to tie everything together
+# Main Create function to tie all 3 parts together
 def create_visual_studio_project(project_info: run_utils.project_info):
     # Create the .sln file
     create_sln(project_info)
@@ -75,4 +76,3 @@ def create_visual_studio_project(project_info: run_utils.project_info):
 
     # Create the .vcxproj.filters file
     create_vcxfilters(project_info)
-    

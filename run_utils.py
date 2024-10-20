@@ -1,21 +1,28 @@
-import sys, file_utils, vcx_utils, uuid, os, constants, pathlib
+import file_utils, constants
+import sys, uuid, pathlib
 
+# determine if arguments entered exist and are valid
 def are_arguments_valid():
+    # needs at least 2 arguments
     if len(sys.argv) < 2:
         return False
+    # make sure directory exists
     if len(sys.argv) >= 2:
         if not file_utils.verify_directory_path(sys.argv[1]):
             return False
+    # make sure project type is supported
     if len(sys.argv) >= 3:
         if not sys.argv[2] in constants.VCX_PROJ_TYPES.keys():
             return False
     
     return True
 
+# return the directory arg
 def get_project_dir_arg():
     if are_arguments_valid():
         return sys.argv[1]
     
+# return the project type arg, with defaults
 def get_project_type_arg():
     if are_arguments_valid():
         if len(sys.argv) >= 3:
@@ -23,6 +30,7 @@ def get_project_type_arg():
         else:
             return constants.DEFAULT_PROJ_TYPE
 
+# project info class, to hold and abstract data about the project being converted
 class project_info:
     def __init__(self):
         self.root_dir = pathlib.Path()
