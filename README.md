@@ -1,5 +1,67 @@
 # VSCode_to_VS
-A simple script that allows you to take a simple folder containing C project files and convert the project into one openable by Visual Studio 2022. Changes structure of folder, adds VS specific files.
 
-Link to Visual Studioi project GUIDS:
+A simple Python script that allows you to quickly convert a coding project into a Visual Studio 2022 Solution.
+
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Program Usage](#program-usage)
+- [Example Project Conversion Scenario](#example-project-conversion-scenario)
+  - Base file structure
+  - Converted file structure
+  - VS 2022 file structure
+- [Notable Resources]()
+
+## Prerequisites
+
+All you need to run this program is:
+- to have downloaded the latest zip of this repository (You may click ([here](https://github.com/TheTerrarian03/VSCode_to_VS/archive/refs/heads/main.zip)) to auto-download from github)
+- and at least Python 3.12 (earlier may work, but older versions are untested). You may find Python here ([https://www.python.org/downloads/](https://www.python.org/downloads/)) or installed via [homebrew](https://brew.sh/) or in the Microsoft Store.
+
+## Program Usage
+
+Currently there is only two ways to use the program:
+- `python .\main.py [your project folder path here]` to convert a project. Example usage: [`python .\main.py 'c:\Users\You\Desktop\ImportantProject\`]
+- `python .\main.py [project folder path here] [project type]` where `[project type]` is either:
+  - `C++`
+  - `C#`
+
+## Example Project Conversion Scenario
+
+Base file structure for C program:
+- [Project Name]
+  - `main.c` - main program, includes "utils.h"
+  - `utils.c` - defines functions for "utils.h"
+  - `utils.h` - function headers and includes for main and "utils.c"
+  - `inputs.dat` - some input file to read from
+  - `output.txt` - some output file to write to
+
+Converted file structure for VS 2022
+- [Project Name]
+  - [Project Name]
+    - `main.c` - main program, includes "utils.h"
+    - `utils.c` - defines functions for "utils.h"
+    - `utils.h` - function headers and includes for main and "utils.c"
+    - `inputs.dat` - some input file to read from
+    - `output.txt` - some output file to write to
+    - `[Project Name].vcxproj` - Outlines project configurations and files to include
+    - `[Project Name].vcxproj.filters` - Classifies files for Visual Studio to categorize files into, such as "Source Files", "Header Files", and "Resourse Files"
+  - `[Project Name].sln` - Solution file for VS 2022 to read
+
+Which then the file structure will look like this in Visual Studio 2022:
+- Header Files
+  - `utils.h`
+- Resource Files
+  - `inputs.dat`
+  - `output.txt`
+- Source Files
+  - `main.c`
+  - `utils.c`
+
+## Notable Resources
+
+Below is a link to Visual Studio project GUIDS, for both myself's future reference, and your curiosity:
 https://stackoverflow.com/questions/10802198/visual-studio-project-type-guids
+
+Also below is a link to my colleague's version of my project, go check it out!!
+https://github.com/Huskiefusion/vs-sln-gen
