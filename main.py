@@ -1,4 +1,4 @@
-import vcx_utils, file_utils, run_utils, os, pathlib
+import vcx_utils, file_utils, run_utils, os, pathlib, constants
 
 # main function
 def main():
@@ -21,9 +21,6 @@ def main():
     # create the various files for Visual Studio
     vcx_utils.create_visual_studio_project(proj_info)
 
-# Example usage
-# project_dir = '/Users/lsm03/Desktop/Programming/College/CompSciCode/CPT_S 121/Extra Credit/BlackJackTest'
-# project_name = 'BlackJackTest'
-# create_visual_studio_project(project_dir, project_name)
+    # print(vcx_utils.create_vcxfilters(proj_info))
 
 main()

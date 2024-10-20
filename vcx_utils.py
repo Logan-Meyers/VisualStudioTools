@@ -1,4 +1,4 @@
-import os, uuid, file_utils, run_utils
+import os, uuid, file_utils, run_utils, constants
 
 # Create the solution file, including basic information like:
 # - Visual Studio version
@@ -7,28 +7,9 @@ import os, uuid, file_utils, run_utils
 # - UUIDs
 # - build options
 def create_sln(project_info: run_utils.project_info):
-    sln_content = f"""Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.11.35312.102
-MinimumVisualStudioVersion = 10.0.40219.1
-Project("{{{project_info.proj_type_uuid}}}") = "{project_info.name}", "{project_info.name}\\{project_info.name}.vcxproj", "{{{project_info.proj_unique_uuid}}}"
-EndProject
-Global
-    GlobalSection(SolutionConfigurationPlatforms) = preSolution
-        Debug|x64 = Debug|x64
-        Release|x64 = Release|x64
-    EndGlobalSection
-    GlobalSection(ProjectConfigurationPlatforms) = postSolution
-        {{{project_info.proj_unique_uuid}}}.Debug|x64.ActiveCfg = Debug|x64
-        {{{project_info.proj_unique_uuid}}}.Debug|x64.Build.0 = Debug|x64
-        {{{project_info.proj_unique_uuid}}}.Release|x64.ActiveCfg = Release|x64
-        {{{project_info.proj_unique_uuid}}}.Release|x64.Build.0 = Release|x64
-    EndGlobalSection
-    GlobalSection(SolutionProperties) = preSolution
-        HideSolutionNode = FALSE
-    EndGlobalSection
-EndGlobal
-"""
+    sln_content = constants.SLN_TEMPLATE.format(PROJ_TYPE_UUID=project_info.proj_type_uuid,
+                                                PROJ_NAME=project_info.name,
+                                                PROJ_UNIQUE_UUID=project_info.proj_unique_uuid)
     
     sln_path = os.path.join(project_info.root_dir, f'{project_info.name}.sln')
     
@@ -40,40 +21,49 @@ EndGlobal
 def create_vcxproj(project_info: run_utils.project_info):
     vcxproj_path = project_info.proj_dir / f'{project_info.name}.vcxproj'  # os.path.join(project_info.root_dir, f'{project_info.name}.vcxproj')
 
-    vcxproj_content = """<?xml version="1.0" encoding="utf-8"?>
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <ItemGroup>
-    """
+    c_includes = ""
+    for file in project_info.source_files:
+        c_includes += constants.CLCOMPLILE_TEMPLATE.format(FILE=file.parts[-1])
     
-    # Add header files (relative paths)
-    for hdr in project_info.header_files:
-        # relative_hdr = os.path.basename(hdr)
-        relative_hdr = hdr.parts[-1]
-        vcxproj_content += f'    <ClInclude Include="{relative_hdr}" />\n'
+    h_includes = ""
+    for file in project_info.header_files:
+        h_includes += constants.CLCOMPLILE_TEMPLATE.format(FILE=file.parts[-1])
     
-    vcxproj_content += '  </ItemGroup>\n  <ItemGroup>\n'
+    res_includes = ""
+    for file in project_info.resource_files:
+        res_includes += constants.TEXT_TEMPLATE.format(FILE=file.parts[-1])
 
-    # Add resource files (relative paths)
-    for res in project_info.header_files:
-        relative_res = os.path.basename(res)
-        vcxproj_content += f'    <None Include="{relative_res}" />\n'
-    
-    vcxproj_content += '  </ItemGroup>\n</Project>'
-
-    # Add source files (relative paths)
-    for src in project_info.source_files:
-        relative_src = os.path.basename(src)
-        vcxproj_content += f'    <ClCompile Include="{relative_src}" />\n'
-    
-    vcxproj_content += '  </ItemGroup>\n  <ItemGroup>\n'
-    
+    vcxproj_content = constants.VCXPROJ_TEMPLATE.format(PROJ_UNIQUE_ID=project_info.proj_unique_uuid,
+                                                        PROJ_NAME=project_info.name,
+                                                        C_INCLUDES=c_includes,
+                                                        H_INCLUDES=h_includes,
+                                                        RES_INCLUDES=res_includes)
+        
     file_utils.write_to_file(vcxproj_path, vcxproj_content)
 
 # Create the vcxproj.vcxfilters file, which defines:
 # - filters for which types of files go in the different categories
 # - explicity stating which items in the item groups go in the categories
 def create_vcxfilters(project_info: run_utils.project_info):
-    pass
+    vcxproj_filters_path = project_info.proj_dir / f'{project_info.name}.vcxproj.filters'
+
+    c_includes = ""
+    for file in project_info.source_files:
+        c_includes += constants.FILTER_SOURCE_TEMPLATE.format(FILE=file.parts[-1])
+    
+    h_includes = ""
+    for file in project_info.header_files:
+        h_includes += constants.FILTER_HEADER_TEMPLATE.format(FILE=file.parts[-1])
+    
+    res_includes = ""
+    for file in project_info.resource_files:
+        res_includes += constants.FILTER_RESOURCE_TEMPLATE.format(FILE=file.parts[-1])
+
+    vcxproj_filters_content = constants.VCXPROJ_FILTERS_TEMPLATE.format(SOURCE_INCLUDES=c_includes,
+                                                                     HEADER_INCLUDES=h_includes,
+                                                                     RESOURCE_INCLUDES=res_includes)
+        
+    file_utils.write_to_file(vcxproj_filters_path, vcxproj_filters_content)
 
 # Main function to tie everything together
 def create_visual_studio_project(project_info: run_utils.project_info):
