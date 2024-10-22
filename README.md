@@ -1,6 +1,14 @@
-# VSCode_to_VS
+# VisualStudioTools
 
-A simple Python script that allows you to quickly convert a coding project into a Visual Studio 2022 Solution.
+A simple Python Script that allows you to Convert basic projects to and from Visual Studio Code and Visual Studio 2022.
+
+This is intended to work cross-platform, as such:
+
+- Windows VS Code <-> Windows VS 2022
+- Mac VS Code <-> Windows VS 2022
+- Linux VS Code <-> Windows VS 2022
+
+So all OS's can convert a VS 2022 Code project from Windows to a VS Code project for editing capabilities, and then back to a VS 2022 project to be ran on Windows.
 
 ## Table of Contents
 
