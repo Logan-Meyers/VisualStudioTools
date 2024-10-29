@@ -28,7 +28,7 @@ def create_vcxproj(project_info: run_utils.project_info):
     
     h_includes = ""
     for file in project_info.header_files:
-        h_includes += constants.CLCOMPLILE_TEMPLATE.format(FILE=file.parts[-1])
+        h_includes += constants.CLINCLUDE_TEMPLATE.format(FILE=file.parts[-1])
     
     res_includes = ""
     for file in project_info.resource_files:
