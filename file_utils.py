@@ -1,4 +1,4 @@
-import run_utils
+import run_utils, constants
 import os, shutil
 from pathlib import Path
 
@@ -12,7 +12,7 @@ def verify_directory_path(path_str: str):
     return False
 
 # Helper to move files to the project folder
-def move_files_to_project_folder(project_info: run_utils.project_info):
+def move_files_to_project_folder(project_info: run_utils.ProjectInfo):
     if not os.path.exists(project_info.proj_dir):
         os.makedirs(project_info.proj_dir)
     
@@ -40,7 +40,26 @@ def categorize_files(project_dir):
     
     return header_files, resource_files, source_files
 
+def remove_unnecessary_files(project_info: run_utils.ProjectInfo):
+    removed_files = 0
+    for file in project_info.resource_files:
+        if file.parts[-1] in constants.DEFAULT_UNNECESSARY_FILES:
+            print("Removing file: `{}/{}` because it matches name `{}`".format(file.parts[-2], file.parts[-1], file.parts[-1]))
+            remove_file(file)
+            removed_files += 1
+        for ext in constants.DEFAULT_UNNECESSARY_EXTS:
+            if file.parts[-1].endswith(ext):
+                print("Removing file: `{}/{}` because it matches extension: `{}`".format(file.parts[-2], file.parts[-1], ext))
+                remove_file(file)
+                removed_files += 1
+    
+    print("Removed {} unnecessary files!".format(removed_files))
+
 # Abstraction of file writing because `with open`` is ugly
 def write_to_file(path, content):
     with open(path, 'w') as file:
         file.write(content)
+
+# Abstraction of file deletion
+def remove_file(path):
+    os.remove(path)

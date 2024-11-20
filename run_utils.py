@@ -6,32 +6,86 @@ def are_arguments_valid():
     # needs at least 2 arguments
     if len(sys.argv) < 2:
         return False
-    # make sure directory exists
-    if len(sys.argv) >= 2:
+    
+    # if 2 arguments (.., project path):
+    # convert project to default project type
+    if len(sys.argv) == 2:
         if not file_utils.verify_directory_path(sys.argv[1]):
             return False
-    # make sure project type is supported
+    
+    # if >= 3 arguments, check for other combinations
     if len(sys.argv) >= 3:
-        if not sys.argv[2] in constants.VCX_PROJ_TYPES.keys():
+        first_is_conversion = False
+        # check first argument for conversion type
+        if sys.argv[1] in constants.CONVERSION_TYPES:
+            # print("conversion type: {}".format(sys.argv[1]))
+            first_is_conversion = True
+        # check last argument for path to project
+        if not file_utils.verify_directory_path(sys.argv[-1]):
             return False
+        # check for other options
+        first_index = 2 if first_is_conversion else 1
+        for i in range(first_index, len(sys.argv)-1):
+            # print("i: {}".format(sys.argv[i]))
+            if not sys.argv[i] in constants.ARGUMENT_OPTIONS:
+                return False
     
     return True
 
-# return the directory arg
-def get_project_dir_arg():
-    if are_arguments_valid():
-        return sys.argv[1]
+def make_run_args():
+    run_args = RunArgs()
+
+    # if 2 arguments (.., project path):
+    # convert project to default project type
+    if len(sys.argv) == 2:
+        run_args.conversion_type = constants.DEFAULT_CONVERSION_TYPE
+        run_args.project_path = sys.argv[-1]
     
-# return the project type arg, with defaults
-def get_project_type_arg():
-    if are_arguments_valid():
-        if len(sys.argv) >= 3:
-            return sys.argv[2]
+    # if >= 3 arguments, check for other combinations
+    if len(sys.argv) >= 3:
+        first_is_conversion = False
+        # set conversion type
+        if sys.argv[1] in constants.CONVERSION_TYPES:
+            first_is_conversion = True
+            run_args.conversion_type = sys.argv[1]
         else:
-            return constants.DEFAULT_PROJ_TYPE
+            run_args.conversion_type = constants.DEFAULT_CONVERSION_TYPE
+
+        # set project path
+        run_args.project_path = sys.argv[-1]
+        
+        # set other args
+        first_index = 2 if first_is_conversion else 1
+        for i in range(first_index, len(sys.argv)-1):
+            run_args.args.append(sys.argv[i])
+    
+    return run_args
+
+# return the project type from run args
+def get_project_type_arg(arg_options):
+    for option in arg_options:
+        option = option.removeprefix("--")
+        if option in constants.VCX_PROJ_TYPES:
+            return option
+    
+    return constants.DEFAULT_PROJ_TYPE
+
+# return conversion type arg
+def get_conversion_type_arg():
+    if sys.argv[1] in constants.CONVERSION_TYPES:
+        return sys.argv[1]
+    else:
+        return constants.DEFAULT_CONVERSION_TYPE
+
+# run arg class, holds project path, conversion type, and any arguments passed in
+class RunArgs:
+    def __init__(self):
+        self.conversion_type = None
+        self.project_path = None
+        self.args = []
 
 # project info class, to hold and abstract data about the project being converted
-class project_info:
+class ProjectInfo:
     def __init__(self):
         self.root_dir = pathlib.Path()
         self.proj_dir = pathlib.Path()
@@ -82,3 +136,17 @@ class project_info:
                \n    - Header Files: {self.header_files}\
                \n    - Resource Files: {self.resource_files}\
                \n    - Source files: {self.source_files}""")
+
+def print_usage():
+    print()
+    print("    python ./main.py [conversion type] [[args]] [project path]")
+    print()
+    print("Conversion types:")
+    print("    `up`:   VS Code -> Visual Studio")
+    print("    `down`: VS Code <- Visual Studio")
+    print("    `sync`: Update Visual Studio files if necessary")
+    print()
+    print("Args:")
+    print("    `--arm`: include arm build targets")
+    print("    `--remove-unnecessary`: deletes files such as `.vscode` and `makefile`")
+    print()

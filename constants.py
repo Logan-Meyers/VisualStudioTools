@@ -6,6 +6,19 @@ VCX_PROJ_TYPES = {
 
 DEFAULT_PROJ_TYPE = "C++"
 
+# VALID CONVERSION TYPES
+# Argument type
+CONVERSION_TYPES = ["up", "down", "sync"]
+
+DEFAULT_CONVERSION_TYPE = "up"
+
+# VALID ARGUMENT OPTIONS
+ARGUMENT_OPTIONS = ["--arm", "--remove-unnecessary"] + ["--" + key for key in VCX_PROJ_TYPES.keys()]
+
+# UNNECESSARY FILES
+DEFAULT_UNNECESSARY_FILES = ["makefile"]
+DEFAULT_UNNECESSARY_EXTS = [".o"]
+
 # SLN FILE CONSTANTS
 SLN_TEMPLATE = """
 Microsoft Visual Studio Solution File, Format Version 12.00

@@ -7,7 +7,7 @@ import os
 # - vcxproj location
 # - UUIDs
 # - build options
-def create_sln(project_info: run_utils.project_info):
+def create_sln(project_info: run_utils.ProjectInfo):
     sln_content = constants.SLN_TEMPLATE.format(PROJ_TYPE_UUID=project_info.proj_type_uuid,
                                                 PROJ_NAME=project_info.name,
                                                 PROJ_UNIQUE_UUID=project_info.proj_unique_uuid)
@@ -19,7 +19,7 @@ def create_sln(project_info: run_utils.project_info):
 # Create the vcxproj file, which defines:
 # - build targets
 # - files to show in groups
-def create_vcxproj(project_info: run_utils.project_info):
+def create_vcxproj(project_info: run_utils.ProjectInfo):
     vcxproj_path = project_info.proj_dir / f'{project_info.name}.vcxproj'  # os.path.join(project_info.root_dir, f'{project_info.name}.vcxproj')
 
     c_includes = ""
@@ -45,7 +45,7 @@ def create_vcxproj(project_info: run_utils.project_info):
 # Create the vcxproj.vcxfilters file, which defines:
 # - filters for which types of files go in the different categories
 # - explicity stating which items in the item groups go in the categories
-def create_vcxfilters(project_info: run_utils.project_info):
+def create_vcxfilters(project_info: run_utils.ProjectInfo):
     vcxproj_filters_path = project_info.proj_dir / f'{project_info.name}.vcxproj.filters'
 
     c_includes = ""
@@ -67,7 +67,7 @@ def create_vcxfilters(project_info: run_utils.project_info):
     file_utils.write_to_file(vcxproj_filters_path, vcxproj_filters_content)
 
 # Main Create function to tie all 3 parts together
-def create_visual_studio_project(project_info: run_utils.project_info):
+def create_visual_studio_project(project_info: run_utils.ProjectInfo):
     # Create the .sln file
     create_sln(project_info)
 
