@@ -11,7 +11,8 @@ def verify_directory_path(path_str: str):
     
     return False
 
-# Helper to move files to the project folder
+# Helper to move files TO the project folder
+# for operation `up`
 def move_files_to_project_folder(project_info: run_utils.ProjectInfo):
     if not os.path.exists(project_info.proj_dir):
         os.makedirs(project_info.proj_dir)
@@ -25,6 +26,16 @@ def move_files_to_project_folder(project_info: run_utils.ProjectInfo):
         os.makedirs(new_parents, exist_ok=True)
 
         # move the file
+        shutil.move(old, new)
+
+# Helper to move files TO the project folder
+# for operation `down`
+def move_files_from_project_folder(project_info: run_utils.ProjectInfo):
+    for file in project_info.all_files:
+        old = project_info.root_dir / file
+        new = project_info.root_dir / (file.relative_to(project_info.name))
+
+        # print(f"From {old} to {new}")
         shutil.move(old, new)
 
 # Categorize files - RELATIVE

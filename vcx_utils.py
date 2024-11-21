@@ -1,5 +1,6 @@
 import file_utils, run_utils, constants
 import os
+from pathlib import Path
 
 # Create the solution file, including basic information like:
 # - Visual Studio version
@@ -76,3 +77,21 @@ def create_visual_studio_project(project_info: run_utils.ProjectInfo):
 
     # Create the .vcxproj.filters file
     create_vcxfilters(project_info)
+
+# Remove vcx files
+# for operation `down`
+def remove_vcx_files(project_info: run_utils.ProjectInfo):
+    # sln
+    file_utils.remove_file(os.path.join(project_info.root_dir, f'{project_info.name}.sln'))
+    project_info.resource_files.remove(Path(f'{project_info.name}.sln'))
+
+    # vcxproj
+    file_utils.remove_file(project_info.proj_dir / f'{project_info.name}.vcxproj')
+    project_info.resource_files.remove(Path(project_info.name) / f'{project_info.name}.vcxproj')
+
+    # vcxproj.filters
+    file_utils.remove_file(project_info.proj_dir / f'{project_info.name}.vcxproj.filters')
+    project_info.resource_files.remove(Path(project_info.name) / f'{project_info.name}.vcxproj.filters')
+
+    # update files, not including vcx files now
+    project_info.update_all_files()

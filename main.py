@@ -30,16 +30,17 @@ def main():
             print("Removing unnecessary files...")
             file_utils.remove_unnecessary_files(proj_info)
 
-        print("Resource files: {}".format(proj_info.resource_files))
-
-        # # move the necessary files, creating directories as needed
+        # move the necessary files, creating directories as needed
         file_utils.move_files_to_project_folder(proj_info)
 
-        # # create the various files for Visual Studio
+        # create the various files for Visual Studio
         vcx_utils.create_visual_studio_project(proj_info)
     elif run_args.operation_type == "down":
-        # do thing
-        pass
+        # remove vcx files
+        vcx_utils.remove_vcx_files(proj_info)
+
+        # move files
+        file_utils.move_files_from_project_folder(proj_info)
     elif run_args.operation_type == "sync":
         # do thing
         pass
