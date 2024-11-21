@@ -1,0 +1,8 @@
+[ ] - Add "clean" operation, simply remove unnecessary files and remove empty folders
+[ ] - Add more file types supported for source, header, and resource sections
+[ ] - Add "--arm" argument functionality
+[ ] - Add "sync" operation functionality
+[ ] - Add checking for already existing project type; i.e. already VS 2022 project, or no VS 2022 files meaning it's already a VSCode project
+
+[ ] - Update usage instructions
+[ ] - Update README.md
