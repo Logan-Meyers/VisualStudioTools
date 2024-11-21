@@ -9,7 +9,7 @@ def main():
 
     run_args = run_utils.make_run_args()
 
-    print(run_args.conversion_type)
+    print(run_args.operation_type)
     print(run_args.project_path)
     print(run_args.args)
 
@@ -24,7 +24,7 @@ def main():
     proj_info.display_info()
 
     # convert the project
-    if run_args.conversion_type == "up":
+    if run_args.operation_type == "up":
         # remove unnecessary files if told to
         if "--remove-unnecessary" in run_args.args:
             print("Removing unnecessary files...")
@@ -37,11 +37,14 @@ def main():
 
         # # create the various files for Visual Studio
         vcx_utils.create_visual_studio_project(proj_info)
-    elif run_args.conversion_type == "down":
+    elif run_args.operation_type == "down":
         # do thing
         pass
-    elif run_args.conversion_type == "sync":
+    elif run_args.operation_type == "sync":
         # do thing
+        pass
+    elif run_args.operation_type == "ls":
+        # info already displayed above, do nothing
         pass
 
 # run the main function

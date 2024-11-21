@@ -17,7 +17,7 @@ def are_arguments_valid():
     if len(sys.argv) >= 3:
         first_is_conversion = False
         # check first argument for conversion type
-        if sys.argv[1] in constants.CONVERSION_TYPES:
+        if sys.argv[1] in constants.OPERATION_TYPES:
             # print("conversion type: {}".format(sys.argv[1]))
             first_is_conversion = True
         # check last argument for path to project
@@ -38,18 +38,18 @@ def make_run_args():
     # if 2 arguments (.., project path):
     # convert project to default project type
     if len(sys.argv) == 2:
-        run_args.conversion_type = constants.DEFAULT_CONVERSION_TYPE
+        run_args.operation_type = constants.DEFAULT_OPERATION_TYPE
         run_args.project_path = sys.argv[-1]
     
     # if >= 3 arguments, check for other combinations
     if len(sys.argv) >= 3:
         first_is_conversion = False
         # set conversion type
-        if sys.argv[1] in constants.CONVERSION_TYPES:
+        if sys.argv[1] in constants.OPERATION_TYPES:
             first_is_conversion = True
-            run_args.conversion_type = sys.argv[1]
+            run_args.operation_type = sys.argv[1]
         else:
-            run_args.conversion_type = constants.DEFAULT_CONVERSION_TYPE
+            run_args.operation_type = constants.DEFAULT_OPERATION_TYPE
 
         # set project path
         run_args.project_path = sys.argv[-1]
@@ -71,11 +71,11 @@ def get_project_type_arg(arg_options):
     return constants.DEFAULT_PROJ_TYPE
 
 # return conversion type arg
-def get_conversion_type_arg():
-    if sys.argv[1] in constants.CONVERSION_TYPES:
+def get_operation_type_arg():
+    if sys.argv[1] in constants.OPERATION_TYPES:
         return sys.argv[1]
     else:
-        return constants.DEFAULT_CONVERSION_TYPE
+        return constants.DEFAULT_OPERATION_TYPE
 
 def print_files_clean(file_type, files):
     print(f"{file_type}")
@@ -85,7 +85,7 @@ def print_files_clean(file_type, files):
 # run arg class, holds project path, conversion type, and any arguments passed in
 class RunArgs:
     def __init__(self):
-        self.conversion_type = None
+        self.operation_type = None
         self.project_path = None
         self.args = []
 
@@ -134,7 +134,7 @@ class ProjectInfo:
         self.all_files = self.header_files + self.resource_files + self.source_files
 
     def display_info(self):
-        print(f"""Project Name:              {self.name}\
+        print(f"""Project Name:             {self.name}\
                \n- Project Root Directory: {self.root_dir}\
                \n- Project New Directory:  {self.proj_dir}\
                \n- Project Type:           {self.proj_type}\

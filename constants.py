@@ -6,11 +6,10 @@ VCX_PROJ_TYPES = {
 
 DEFAULT_PROJ_TYPE = "C++"
 
-# VALID CONVERSION TYPES
-# Argument type
-CONVERSION_TYPES = ["up", "down", "sync"]
+# VALID OPERATION TYPES
+OPERATION_TYPES = ["up", "down", "sync", "ls"]
 
-DEFAULT_CONVERSION_TYPE = "up"
+DEFAULT_OPERATION_TYPE = "up"
 
 # VALID ARGUMENT OPTIONS
 ARGUMENT_OPTIONS = ["--arm", "--remove-unnecessary"] + ["--" + key for key in VCX_PROJ_TYPES.keys()]
