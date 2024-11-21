@@ -24,15 +24,15 @@ def create_vcxproj(project_info: run_utils.ProjectInfo):
 
     c_includes = ""
     for file in project_info.source_files:
-        c_includes += constants.CLCOMPLILE_TEMPLATE.format(FILE=file.parts[-1])
+        c_includes += constants.CLCOMPLILE_TEMPLATE.format(FILE=file)
     
     h_includes = ""
     for file in project_info.header_files:
-        h_includes += constants.CLINCLUDE_TEMPLATE.format(FILE=file.parts[-1])
+        h_includes += constants.CLINCLUDE_TEMPLATE.format(FILE=file)
     
     res_includes = ""
     for file in project_info.resource_files:
-        res_includes += constants.TEXT_TEMPLATE.format(FILE=file.parts[-1])
+        res_includes += constants.TEXT_TEMPLATE.format(FILE=file)
 
     vcxproj_content = constants.VCXPROJ_TEMPLATE.format(PROJ_UNIQUE_ID=project_info.proj_unique_uuid,
                                                         PROJ_NAME=project_info.name,

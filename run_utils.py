@@ -114,7 +114,7 @@ class ProjectInfo:
         self.generate_uuid()
 
     def generate_file_info(self):
-        # get details about categorized files
+        # get details about categorized files - RELATIVE TO ROOT_DIR
         hdr, res, src = file_utils.categorize_files(self.root_dir)
 
         # set file info to info about categorized files
@@ -123,8 +123,11 @@ class ProjectInfo:
         self.source_files = src
 
         # all files
-        self.all_files = self.header_files + self.resource_files + self.source_files
+        self.update_all_files()
     
+    def update_all_files(self):
+        self.all_files = self.header_files + self.resource_files + self.source_files
+
     def display_info(self):
         print(f"""Project Name: {self.name}\
                \n  - Project Root Directory: {self.root_dir}\

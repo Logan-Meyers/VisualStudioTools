@@ -1,0 +1,15 @@
+----- File Formats -----
+
+VS Code file format for any file example:
+     PA7        / organized   / main.c
+[project root]  | [folders..] | [file]
+
+Visual Studio file format for same file example:
+        PA7    /      PA7      /  organized  / main.c
+[project root] | [project dir] | [folders..] | [file]
+
+----- Conversions -----
+
+VS Code -> VS2022: adds the [project dir] after root
+
+VS Code <- VS2022: removes the [project dir] after root
