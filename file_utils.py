@@ -17,11 +17,9 @@ def move_files_to_project_folder(project_info: run_utils.ProjectInfo):
         os.makedirs(project_info.proj_dir)
     
     for file in project_info.all_files:
-        root = project_info.root_dir
-        old = root / file
-        new = root / project_info.name / file
+        old = project_info.root_dir / file
+        new = project_info.root_dir / project_info.name / file
         new_parents = new.parent
-        # print("Moving file `{}` to {}".format(old, new))
 
         # make directories if they don't exist in the new folder
         os.makedirs(new_parents, exist_ok=True)

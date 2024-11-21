@@ -20,15 +20,15 @@ def create_sln(project_info: run_utils.ProjectInfo):
 # - build targets
 # - files to show in groups
 def create_vcxproj(project_info: run_utils.ProjectInfo):
-    vcxproj_path = project_info.proj_dir / f'{project_info.name}.vcxproj'  # os.path.join(project_info.root_dir, f'{project_info.name}.vcxproj')
+    vcxproj_path = project_info.proj_dir / f'{project_info.name}.vcxproj'
 
-    c_includes = ""
+    src_includes = ""
     for file in project_info.source_files:
-        c_includes += constants.CLCOMPLILE_TEMPLATE.format(FILE=file)
+        src_includes += constants.CLCOMPLILE_TEMPLATE.format(FILE=file)
     
-    h_includes = ""
+    hdr_includes = ""
     for file in project_info.header_files:
-        h_includes += constants.CLINCLUDE_TEMPLATE.format(FILE=file)
+        hdr_includes += constants.CLINCLUDE_TEMPLATE.format(FILE=file)
     
     res_includes = ""
     for file in project_info.resource_files:
@@ -36,8 +36,8 @@ def create_vcxproj(project_info: run_utils.ProjectInfo):
 
     vcxproj_content = constants.VCXPROJ_TEMPLATE.format(PROJ_UNIQUE_ID=project_info.proj_unique_uuid,
                                                         PROJ_NAME=project_info.name,
-                                                        C_INCLUDES=c_includes,
-                                                        H_INCLUDES=h_includes,
+                                                        C_INCLUDES=src_includes,
+                                                        H_INCLUDES=hdr_includes,
                                                         RES_INCLUDES=res_includes)
         
     file_utils.write_to_file(vcxproj_path, vcxproj_content)
@@ -48,21 +48,21 @@ def create_vcxproj(project_info: run_utils.ProjectInfo):
 def create_vcxfilters(project_info: run_utils.ProjectInfo):
     vcxproj_filters_path = project_info.proj_dir / f'{project_info.name}.vcxproj.filters'
 
-    c_includes = ""
+    src_includes = ""
     for file in project_info.source_files:
-        c_includes += constants.FILTER_SOURCE_TEMPLATE.format(FILE=file.parts[-1])
+        src_includes += constants.FILTER_SOURCE_TEMPLATE.format(FILE=file.parts[-1])
     
-    h_includes = ""
+    hdr_includes = ""
     for file in project_info.header_files:
-        h_includes += constants.FILTER_HEADER_TEMPLATE.format(FILE=file.parts[-1])
+        hdr_includes += constants.FILTER_HEADER_TEMPLATE.format(FILE=file.parts[-1])
     
     res_includes = ""
     for file in project_info.resource_files:
         res_includes += constants.FILTER_RESOURCE_TEMPLATE.format(FILE=file.parts[-1])
 
-    vcxproj_filters_content = constants.VCXPROJ_FILTERS_TEMPLATE.format(SOURCE_INCLUDES=c_includes,
-                                                                     HEADER_INCLUDES=h_includes,
-                                                                     RESOURCE_INCLUDES=res_includes)
+    vcxproj_filters_content = constants.VCXPROJ_FILTERS_TEMPLATE.format(SOURCE_INCLUDES=src_includes,
+                                                                        HEADER_INCLUDES=hdr_includes,
+                                                                        RESOURCE_INCLUDES=res_includes)
         
     file_utils.write_to_file(vcxproj_filters_path, vcxproj_filters_content)
 

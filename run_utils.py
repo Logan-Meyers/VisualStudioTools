@@ -77,6 +77,11 @@ def get_conversion_type_arg():
     else:
         return constants.DEFAULT_CONVERSION_TYPE
 
+def print_files_clean(file_type, files):
+    print(f"{file_type}")
+    for file in files:
+        print(f"                          {file}")
+
 # run arg class, holds project path, conversion type, and any arguments passed in
 class RunArgs:
     def __init__(self):
@@ -129,16 +134,16 @@ class ProjectInfo:
         self.all_files = self.header_files + self.resource_files + self.source_files
 
     def display_info(self):
-        print(f"""Project Name: {self.name}\
-               \n  - Project Root Directory: {self.root_dir}\
-               \n  - Project New Directory: {self.proj_dir}\
-               \n  - Project Type: {self.proj_type}\
-               \n  - Project Type UUID: {{{self.proj_type_uuid}}}\
-               \n  - Project Unique UUID: {{{self.proj_unique_uuid}}}\
-               \n  - Project Files:\
-               \n    - Header Files: {self.header_files}\
-               \n    - Resource Files: {self.resource_files}\
-               \n    - Source files: {self.source_files}""")
+        print(f"""Project Name:              {self.name}\
+               \n- Project Root Directory: {self.root_dir}\
+               \n- Project New Directory:  {self.proj_dir}\
+               \n- Project Type:           {self.proj_type}\
+               \n- Project Type UUID:      {{{self.proj_type_uuid}}}\
+               \n- Project Unique UUID:    {{{self.proj_unique_uuid}}}\
+               \n- Project Files:""")
+        print_files_clean("  - Header Files:         ", self.header_files)
+        print_files_clean("  - Resource Files:       ", self.resource_files)
+        print_files_clean("  - Source Files:         ", self.source_files)
 
 def print_usage():
     print()
