@@ -32,6 +32,11 @@ def main():
 
         # move the necessary files, creating directories as needed
         file_utils.move_files_to_project_folder(proj_info)
+        
+        # remove empty folders if told to
+        if "--clean-empty" in run_args.args:
+            print("Removing empty folders...")
+            file_utils.remove_empty_folders(proj_info)
 
         # create the various files for Visual Studio
         vcx_utils.create_visual_studio_project(proj_info)
@@ -41,6 +46,11 @@ def main():
 
         # move files
         file_utils.move_files_from_project_folder(proj_info)
+
+        # remove empty folders if told to
+        if "--clean-empty" in run_args.args:
+            print("Removing empty folders...")
+            file_utils.remove_empty_folders(proj_info)
     elif run_args.operation_type == "sync":
         # do thing
         pass

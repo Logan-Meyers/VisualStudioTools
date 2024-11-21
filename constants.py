@@ -12,7 +12,7 @@ OPERATION_TYPES = ["up", "down", "sync", "ls"]
 DEFAULT_OPERATION_TYPE = "up"
 
 # VALID ARGUMENT OPTIONS
-ARGUMENT_OPTIONS = ["--arm", "--remove-unnecessary"] + ["--" + key for key in VCX_PROJ_TYPES.keys()]
+ARGUMENT_OPTIONS = ["--arm", "--remove-unnecessary", "--clean-empty"] + ["--" + key for key in VCX_PROJ_TYPES.keys()]
 
 # UNNECESSARY FILES
 DEFAULT_UNNECESSARY_FILES = ["makefile"]

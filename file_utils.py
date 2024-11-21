@@ -14,9 +14,11 @@ def verify_directory_path(path_str: str):
 # Helper to move files TO the project folder
 # for operation `up`
 def move_files_to_project_folder(project_info: run_utils.ProjectInfo):
+    # make main project directory
     if not os.path.exists(project_info.proj_dir):
         os.makedirs(project_info.proj_dir)
     
+    # move each file
     for file in project_info.all_files:
         old = project_info.root_dir / file
         new = project_info.root_dir / project_info.name / file
@@ -31,12 +33,26 @@ def move_files_to_project_folder(project_info: run_utils.ProjectInfo):
 # Helper to move files TO the project folder
 # for operation `down`
 def move_files_from_project_folder(project_info: run_utils.ProjectInfo):
+    # move each file
     for file in project_info.all_files:
         old = project_info.root_dir / file
         new = project_info.root_dir / (file.relative_to(project_info.name))
+        new_parents = new.parent
 
-        # print(f"From {old} to {new}")
+        # make directories if they don't exist in the new folder
+        os.makedirs(new_parents, exist_ok=True)
+
+        # move the file
         shutil.move(old, new)
+
+# Helper to remove empty folders
+def remove_empty_folders(project_info: run_utils.ProjectInfo):
+    # straight from ChatGPT
+    # Recursively iterate over all directories (bottom-up)
+    for folder in sorted(Path(project_info.root_dir).rglob('*'), key=lambda p: len(p.parts), reverse=True):
+        if folder.is_dir() and not any(folder.iterdir()):  # Check if the folder is empty
+            folder.rmdir()  # Remove the empty folder
+            print(f"Removing empty folder {folder}")
 
 # Categorize files - RELATIVE
 def categorize_files(project_dir):
