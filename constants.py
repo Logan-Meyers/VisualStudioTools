@@ -16,6 +16,9 @@ ARGUMENT_OPTIONS = ["--arm", "--remove-unnecessary", "--clean-empty"] + ["--" + 
 DEFAULT_UNNECESSARY_FILES = ["makefile", ".DS_Store"]
 DEFAULT_UNNECESSARY_EXTS = [".o", ".out"]
 
+#VS UNNECESSARY FOLDERS
+VS_UNNECESSARY_FOLDERS = ["ARM64/", "x86/", "x64/", ".vs"]
+
 # SLN FILE CONSTANTS
 SLN_TEMPLATE = """
 Microsoft Visual Studio Solution File, Format Version 12.00

@@ -80,22 +80,58 @@ def create_visual_studio_project(project_info: run_utils.ProjectInfo):
 
 # Remove vcx files
 # for operation `down`
-def remove_vcx_files(project_info: run_utils.ProjectInfo):
+def remove_vcx_files(project_info: run_utils.ProjectInfo):   
     # sln
-    file_utils.remove_file(os.path.join(project_info.root_dir, f'{project_info.name}.sln'))
-    project_info.resource_files.remove(Path(f'{project_info.name}.sln'))
+    try:
+        file_utils.remove_file(os.path.join(project_info.root_dir, f'{project_info.name}.sln'))
+        # project_info.resource_files.remove(Path(f'{project_info.name}.sln'))
+    except FileNotFoundError:
+        pass
 
     # vcxproj
-    file_utils.remove_file(project_info.proj_dir / f'{project_info.name}.vcxproj')
-    project_info.resource_files.remove(Path(project_info.name) / f'{project_info.name}.vcxproj')
+    try:
+        file_utils.remove_file(project_info.proj_dir / f'{project_info.name}.vcxproj')
+        # project_info.resource_files.remove(Path(project_info.name) / f'{project_info.name}.vcxproj')
+    except FileNotFoundError:
+        pass
 
     # vcxproj.filters
-    file_utils.remove_file(project_info.proj_dir / f'{project_info.name}.vcxproj.filters')
-    project_info.resource_files.remove(Path(project_info.name) / f'{project_info.name}.vcxproj.filters')
+    try:
+        file_utils.remove_file(project_info.proj_dir / f'{project_info.name}.vcxproj.filters')
+        # project_info.resource_files.remove(Path(project_info.name) / f'{project_info.name}.vcxproj.filters')
+    except FileNotFoundError:
+        pass
 
     # vcxproj.user
-    file_utils.remove_file(project_info.proj_dir / f'{project_info.name}.vcxproj.user')
-    project_info.resource_files.remove(Path(project_info.name) / f'{project_info.name}.vcxproj.user')
+    try:
+        file_utils.remove_file(project_info.proj_dir / f'{project_info.name}.vcxproj.user')
+        # project_info.resource_files.remove(Path(project_info.name) / f'{project_info.name}.vcxproj.user')
+    except FileNotFoundError:
+        pass
 
     # update files, not including vcx files now
-    project_info.update_all_files()
+    project_info.generate_file_info()
+
+# Remove Visual Studio Folders (Build folders and .vs)
+# for operation 'down'
+def remove_vs_folders(project_info: run_utils.ProjectInfo):
+    folders = []
+    for folder in constants.VS_UNNECESSARY_FOLDERS:
+        folders.append(Path(folder))
+        folders.append(Path(project_info.name) / Path(folder))
+
+    # loop through all defines cases
+    for vs_folder in folders:
+        vs_folder_path = Path(project_info.root_dir / vs_folder)
+
+        print(f"Checking folder path: {vs_folder_path}")
+
+        print(f"{vs_folder_path}")
+
+        try:
+            file_utils.remove_folder(vs_folder_path)
+        except ValueError:
+            continue
+    
+    # update files, not including vs folders now
+    project_info.generate_file_info()

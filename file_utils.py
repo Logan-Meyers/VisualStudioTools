@@ -127,3 +127,9 @@ def write_to_file(path, content):
 # Abstraction of file deletion
 def remove_file(path):
     os.remove(path)
+
+def remove_folder(path: Path):
+    if not path.is_dir():
+        raise ValueError(f"The path {path} is not a directory or folder.")
+
+    shutil.rmtree(path)

@@ -1,4 +1,4 @@
-import vcx_utils, file_utils, run_utils
+import vcx_utils, file_utils, run_utils, constants
 
 # main function
 def main():
@@ -52,6 +52,9 @@ def main():
         # remove vcx files
         vcx_utils.remove_vcx_files(proj_info)
 
+        # remove vs folders
+        vcx_utils.remove_vs_folders(proj_info)
+
         # move files
         file_utils.move_files_from_project_folder(proj_info)
 
@@ -72,3 +75,9 @@ def main():
 
 # run the main function
 main()
+
+# def test():
+#     for folder_to_remove in constants.VS_UNNECESSARY_FOLDERS:
+#         print(folder_to_remove.format(PROJ_NAME="YIPPE"))
+
+# test()
