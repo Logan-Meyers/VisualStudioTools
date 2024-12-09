@@ -13,7 +13,7 @@ OPERATION_TYPES = ["help", "usage", "up", "down", "sync", "ls"]
 ARGUMENT_OPTIONS = ["--arm", "--remove-unnecessary", "--clean-empty"] + ["--" + key for key in VCX_PROJ_TYPES.keys()]
 
 # UNNECESSARY FILES
-DEFAULT_UNNECESSARY_FILES = ["makefile"]
+DEFAULT_UNNECESSARY_FILES = ["makefile", ".DS_Store"]
 DEFAULT_UNNECESSARY_EXTS = [".o", ".out"]
 
 # SLN FILE CONSTANTS

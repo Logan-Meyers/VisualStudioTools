@@ -148,6 +148,7 @@ class ProjectInfo:
         print_files_clean("  - Source Files:         ", self.source_files)
 
 def print_usage():
+    print("Run Syntax:")
     print()
     print("    python ./main.py [operation] [[args]] [project path]")
     print()

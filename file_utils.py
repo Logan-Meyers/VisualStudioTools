@@ -36,7 +36,13 @@ def move_files_from_project_folder(project_info: run_utils.ProjectInfo):
     # move each file
     for file in project_info.all_files:
         old = project_info.root_dir / file
-        new = project_info.root_dir / (file.relative_to(project_info.name))
+        
+        try:
+            new = project_info.root_dir / (file.relative_to(project_info.name))
+        except ValueError:
+            # path not subpath of the project folder, skip file
+            continue
+
         new_parents = new.parent
 
         # make directories if they don't exist in the new folder
@@ -44,6 +50,14 @@ def move_files_from_project_folder(project_info: run_utils.ProjectInfo):
 
         # move the file
         shutil.move(old, new)
+
+# Helper to remove all .DS_Store files
+def remove_DS_Stores(project_info: run_utils.ProjectInfo):
+    # find all instances and remove them
+    for ds_store_file in Path(project_info.root_dir).rglob('.DS_Store'):
+        if ds_store_file.is_file():
+            ds_store_file.unlink()
+            print(f"Removed .DS_Store file: {ds_store_file}")
 
 # Helper to remove empty folders
 def remove_empty_folders(project_info: run_utils.ProjectInfo):
@@ -53,6 +67,11 @@ def remove_empty_folders(project_info: run_utils.ProjectInfo):
         if folder.is_dir() and not any(folder.iterdir()):  # Check if the folder is empty
             folder.rmdir()  # Remove the empty folder
             print(f"Removing empty folder {folder}")
+
+def list_empty_folders(project_info: run_utils.ProjectInfo):
+    for folder in sorted(Path(project_info.root_dir).rglob('*'), key=lambda p: len(p.parts), reverse=True):
+        if folder.is_dir() and not any(folder.iterdir()):  # Check if the folder is empty
+            print(f"Empty folder: {folder}")
 
 # Categorize files - RELATIVE
 def categorize_files(project_dir):
