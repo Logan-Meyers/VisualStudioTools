@@ -93,5 +93,9 @@ def remove_vcx_files(project_info: run_utils.ProjectInfo):
     file_utils.remove_file(project_info.proj_dir / f'{project_info.name}.vcxproj.filters')
     project_info.resource_files.remove(Path(project_info.name) / f'{project_info.name}.vcxproj.filters')
 
+    # vcxproj.user
+    file_utils.remove_file(project_info.proj_dir / f'{project_info.name}.vcxproj.user')
+    project_info.resource_files.remove(Path(project_info.name) / f'{project_info.name}.vcxproj.user')
+
     # update files, not including vcx files now
     project_info.update_all_files()
