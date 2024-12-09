@@ -9,8 +9,6 @@ DEFAULT_PROJ_TYPE = "C++"
 # VALID OPERATION TYPES
 OPERATION_TYPES = ["help", "usage", "up", "down", "sync", "ls"]
 
-DEFAULT_OPERATION_TYPE = "up"
-
 # VALID ARGUMENT OPTIONS
 ARGUMENT_OPTIONS = ["--arm", "--remove-unnecessary", "--clean-empty"] + ["--" + key for key in VCX_PROJ_TYPES.keys()]
 
