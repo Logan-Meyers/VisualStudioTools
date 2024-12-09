@@ -7,7 +7,7 @@ VCX_PROJ_TYPES = {
 DEFAULT_PROJ_TYPE = "C++"
 
 # VALID OPERATION TYPES
-OPERATION_TYPES = ["up", "down", "sync", "ls"]
+OPERATION_TYPES = ["help", "usage", "up", "down", "sync", "ls"]
 
 DEFAULT_OPERATION_TYPE = "up"
 
@@ -16,7 +16,7 @@ ARGUMENT_OPTIONS = ["--arm", "--remove-unnecessary", "--clean-empty"] + ["--" + 
 
 # UNNECESSARY FILES
 DEFAULT_UNNECESSARY_FILES = ["makefile"]
-DEFAULT_UNNECESSARY_EXTS = [".o"]
+DEFAULT_UNNECESSARY_EXTS = [".o", ".out"]
 
 # SLN FILE CONSTANTS
 SLN_TEMPLATE = """

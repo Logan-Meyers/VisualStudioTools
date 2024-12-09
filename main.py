@@ -1,17 +1,13 @@
 import vcx_utils, file_utils, run_utils
-import constants
 
 # main function
 def main():
     if not run_utils.are_arguments_valid():
         print("\nSorry! Incorrect usage of the tool. Please see the usage below:")
         run_utils.print_usage()
+        quit()
 
     run_args = run_utils.make_run_args()
-
-    print(run_args.operation_type)
-    print(run_args.project_path)
-    print(run_args.args)
 
     # at this point are_arguments_valid MUST be true.
 
@@ -23,7 +19,7 @@ def main():
     # print info about the project
     proj_info.display_info()
 
-    # convert the project
+    # run operation on the project
     if run_args.operation_type == "up":
         # remove unnecessary files if told to
         if "--remove-unnecessary" in run_args.args:
