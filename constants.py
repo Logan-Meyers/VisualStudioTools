@@ -16,6 +16,10 @@ ARGUMENT_OPTIONS = ["--arm", "--remove-unnecessary", "--clean-empty"] + ["--" + 
 DEFAULT_UNNECESSARY_FILES = ["makefile", ".DS_Store"]
 DEFAULT_UNNECESSARY_EXTS = [".o", ".out"]
 
+# FILE SUFFIX TYPES
+HEADER_FILE_SUFFIXES = [".h", ".hpp"]
+SOURCE_FILE_SUFFIXES = [".c", ".cpp"]
+
 #VS UNNECESSARY FOLDERS
 VS_UNNECESSARY_FOLDERS = ["ARM64/", "x86/", "x64/", ".vs"]
 

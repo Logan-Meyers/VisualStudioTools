@@ -81,9 +81,9 @@ def categorize_files(project_dir):
     
     for file_path in Path(project_dir).rglob('*'):
         if file_path.is_file():
-            if file_path.suffix == '.c':
+            if file_path.suffix in constants.SOURCE_FILE_SUFFIXES:
                 source_files.append(file_path.relative_to(project_dir))
-            elif file_path.suffix == '.h':
+            elif file_path.suffix in constants.HEADER_FILE_SUFFIXES:
                 header_files.append(file_path.relative_to(project_dir))
             else:
                 resource_files.append(file_path.relative_to(project_dir))
