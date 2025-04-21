@@ -1,16 +1,14 @@
+import project_classes.project as PROJECT
 from pathlib import PurePath
 import uuid
 
 class Solution:
     # header
-    sln_ver = None
-    vs_ver = None
-    vs_min_ver = None
+    sln_ver: str = None
+    vs_ver: str = None
+    vs_min_ver: str = None
     # file body - solution and project definitions
-    solution_type = None
-    project_names = []
-    project_paths = []
-    project_unique_uuids = []
+    projects = []
     # file body - pre- and postSolution definitions
     sln_config_platforms = []   # preSolution
     proj_config_platforms = []  # postSolution
@@ -72,15 +70,43 @@ class Solution:
                 
                 continue
         
-            # project solution type UUID
+            # projects
             if (line.find("Project(\"{") == 0):
-                sln_uuid_str = line[line.find("{")+1:line.find("}")]
+                proj_type_str = line[line.find("{")+1:line.find("}")]
+                proj_type = None
 
+                # extract uuid
                 try:
-                    self.solution_type = uuid.UUID(sln_uuid_str)
+                    proj_type = uuid.UUID(proj_type_str)
                 except ValueError:
-                    self.solution_type = -1  # badly formed UUID
-                    
+                    print("There was an error processing Project with type UUID: " + proj_type_str + "! Badly formed UUID!")
+                    continue
+
+                # parse line for segments needed for a project: name, vcxproj path, and uuid
+                proj_sgmts = line.split(" = ")
+
+                if (len(proj_sgmts) != 2):
+                    print("Invalid definition of project!")
+                    continue
+
+                sgmts = proj_sgmts[-1].split(", ")
+
+                if (len(sgmts) != 3):
+                    print("Invalid number of project info points!")
+                    continue
+
+                proj_name = sgmts[0].replace("\"", "")
+                proj_vcxproj_rel_path = sgmts[1].replace("\"", "")
+                proj_uuid = uuid.UUID(sgmts[2][1:-2])
+
+                print(proj_uuid)
+
+                # print(f"Processed project of type {proj_type_str} with name {proj_name} and uuid {proj_uuid} and rel path {proj_vcxproj_rel_path}")
+
+                self.projects += PROJECT.Project(proj_type, proj_uuid, proj_name, proj_vcxproj_rel_path, sln_path.parent)
+
+                print(self.projects[-1])
+
                 continue
 
             # TODO: projects.
@@ -90,6 +116,4 @@ class Solution:
     def __str__(self):
         return f"""Format Version: {self.sln_ver}
 VS Version: `{self.vs_ver}`
-Min VS Version: `{self.vs_min_ver}`
-
-Solution UUID: `{self.solution_type}`"""
+Min VS Version: `{self.vs_min_ver}`"""
