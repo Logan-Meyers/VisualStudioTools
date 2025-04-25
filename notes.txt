@@ -1,15 +1,54 @@
------ File Formats -----
+----- Ideas -----
 
-VS Code file format for any file example:
-     PA7        / organized   / main.c
-[project root]  | [folders..] | [file]
-
-Visual Studio file format for same file example:
-        PA7    /      PA7      /  organized  / main.c
-[project root] | [project dir] | [folders..] | [file]
-
------ Conversions -----
-
-VS Code -> VS2022: adds the [project dir] after root
-
-VS Code <- VS2022: removes the [project dir] after root
+- load project (obviously) & determine whether VS or VS Code
+- convert from VS to VS Code (down)
+    - remove .vs, x64, ARM, etc folders and files if wanted
+    - read in solution and parse data
+        - make solution
+        - make projects
+    - add a json file:
+        solution:
+            - versions
+            - projects
+            - presolution solution properties
+            - postsolution extensibility globals
+        projects []:
+            - type uuid
+            - name
+            - is nested
+            - unique uuid
+            - project configs []:
+                - name
+                - config
+                - platform
+            - ClCompile files []
+            - ClInclude files []
+            - Text Include files []
+            - Filters []:
+                - filter name
+                - extensions
+                - file names []
+    - remove VS files
+    - if the projects are in nested folders, move file and remove empty folder
+- convert from VS Code to VS (up)
+    - remove makefile if wanted
+    - remove .o files if wanted
+    - read json for solution and project configs
+    - move files in a project into nested folders if nested
+    - create VS files with `xml.etree.ElementTree`
+- re-build solution
+    - keep files in place
+    - read files in root and subfolders and create projects
+    - ask for:
+        - filter by [resource, header, and source] or custom
+- clean project
+    - ask for and remove if wanted:
+        - .vs
+        - .vscode
+        - x64
+        - ARM
+        - *.o files
+- add SFML includes
+    - check for VS solution
+    - ask for relative file path from .sln file
+    - add to vcx files
