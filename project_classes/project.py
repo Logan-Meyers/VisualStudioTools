@@ -28,4 +28,7 @@ class Project:
     def add_config(self, config: str):
         self.post_sln_configs += config
 
-    
+    def __str__(self):
+        return f"""Project: {self.name}
+    Type UUID: {self.proj_type}
+    Unique UUID: {self.unique_uuid}"""

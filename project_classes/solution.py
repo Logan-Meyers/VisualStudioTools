@@ -103,7 +103,7 @@ class Solution:
 
                 # print(f"Processed project of type {proj_type_str} with name {proj_name} and uuid {proj_uuid} and rel path {proj_vcxproj_rel_path}")
 
-                self.projects += PROJECT.Project(proj_type, proj_uuid, proj_name, proj_vcxproj_rel_path, sln_path.parent)
+                self.projects.append(PROJECT.Project(proj_type, proj_uuid, proj_name, proj_vcxproj_rel_path, sln_path.parent))
 
                 print(self.projects[-1])
 
